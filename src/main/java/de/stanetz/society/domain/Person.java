@@ -12,6 +12,7 @@ import org.neo4j.ogm.annotation.GraphId;
 import org.neo4j.ogm.annotation.Labels;
 import org.neo4j.ogm.annotation.NodeEntity;
 import org.neo4j.ogm.annotation.Relationship;
+import org.springframework.util.CollectionUtils;
 
 import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
@@ -27,7 +28,7 @@ public class Person {
 	@GraphId
 	private Long id;
 
-	/** Possible Labels are Person ot Leader*/
+	/** Possible Labels are Person or Leader*/
 	@Labels
 	private Set<String> labels = new HashSet<>();
 
@@ -53,12 +54,16 @@ public class Person {
 		this.id = id;
 	}
 
-	public Set<String> getLabels() {
-		return labels;
+	public boolean getLeader() {
+		return labels.contains(PersonLabels.Leader.name());
 	}
 
-	public void setLabels(Set<String> labels) {
-		this.labels = labels;
+	private void setLeader(boolean isLeader) {
+		if (isLeader) {
+			labels.add(PersonLabels.Leader.name());
+		} else {
+			labels.remove(PersonLabels.Leader.name());
+		}
 	}
 
 	public List<Person> getParents() {
@@ -74,6 +79,7 @@ public class Person {
 	}
 
 	public void setLeadedGroups(List<Group> leadedGroups) {
+		this.setLeader(!CollectionUtils.isEmpty(leadedGroups));
 		this.leadedGroups = leadedGroups;
 	}
 

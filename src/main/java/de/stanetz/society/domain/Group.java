@@ -6,6 +6,7 @@ package de.stanetz.society.domain;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.neo4j.ogm.annotation.GraphId;
 import org.neo4j.ogm.annotation.NodeEntity;
 import org.neo4j.ogm.annotation.Relationship;
 
@@ -21,10 +22,21 @@ import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 @NodeEntity
 public class Group {
 
+	@GraphId
+	private Long id;
+
 	private String name;
 
 	@Relationship(type = "IS_MEMBER", direction  = Relationship.INCOMING)
 	private List<Person> members = new ArrayList<>();
+
+	public Long getId() {
+		return id;
+	}
+
+	public void setId(Long id) {
+		this.id = id;
+	}
 
 	public List<Person> getMembers() {
 		return members;
