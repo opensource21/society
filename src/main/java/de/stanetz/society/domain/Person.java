@@ -36,7 +36,7 @@ public class Person {
 
 	private Sex sex;
 
-	@Relationship(type = "IS_PARENT", direction = Relationship.OUTGOING)
+	@Relationship(type = "HAS_PARENT", direction = Relationship.OUTGOING)
 	private List<Person> parents = new ArrayList<>();
 
 	@Relationship(type = "LEADS", direction = Relationship.OUTGOING)
@@ -45,6 +45,14 @@ public class Person {
 	@Relationship(type = "IS_MEMBER", direction = Relationship.OUTGOING)
 	private List<Group> groups = new ArrayList<>();
 
+
+	public Person(){}
+
+	public Person(String name, Sex sex) {
+		super();
+		this.name = name;
+		this.sex = sex;
+	}
 
 	public Long getId() {
 		return id;

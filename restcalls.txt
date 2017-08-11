@@ -1,0 +1,12 @@
+PATCH
+{
+  "leadedGroups": ["http://localhost:8080/group/3"]
+}
+
+
+PUT //Funktioniert nicht :-(
+{
+  "name": "Niels",
+  "sex": "MALE",
+    "leadedGroups": []
+}
