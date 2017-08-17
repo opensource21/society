@@ -12,6 +12,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
+import org.springframework.transaction.annotation.Transactional;
 
 import de.stanetz.society.domain.Person;
 import de.stanetz.society.domain.Sex;
@@ -32,7 +33,7 @@ public class SocietyApplicationTests {
 	@Test
 	public void contextLoads() {
 
-		//Set up the Session
+		// Set up the Session
 		SessionFactory sessionFactory = new SessionFactory("de.stanetz.society");
 		Session session = sessionFactory.openSession();
 
@@ -45,13 +46,13 @@ public class SocietyApplicationTests {
 
 		LOG.info("Save");
 		session.beginTransaction();
-		//Persist the movie. This persists the actors as well.
+		// Persist the movie. This persists the actors as well.
 		session.save(child);
 		session.getTransaction().commit();
 		LOG.info("Clear session");
 		session.clear();
 
-		//Load a movie
+		// Load a movie
 		Person loadedChild = session.load(Person.class, child.getId());
 		Assert.assertEquals(2, loadedChild.getParents().size());
 		Assert.assertNotSame(child, loadedChild);
@@ -78,6 +79,7 @@ public class SocietyApplicationTests {
 	}
 
 	@Test
+	@Transactional
 	public void repoTest() {
 
 		Person child = new Person("Child", Sex.OTHER);
@@ -88,13 +90,13 @@ public class SocietyApplicationTests {
 		child.setParents(Arrays.asList(mother, father));
 
 		LOG.info("Save");
-		//Persist the movie. This persists the actors as well.
+		// Persist the movie. This persists the actors as well.
 		personRepository.save(child);
 
 		LOG.info("Clear session");
 		springManagedSession.clear();
 
-		//Load a movie
+		// Load a movie
 		Person loadedChild = personRepository.findOne(child.getId());
 		Assert.assertEquals(2, loadedChild.getParents().size());
 		Assert.assertNotSame(child, loadedChild);
