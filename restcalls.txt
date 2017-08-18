@@ -4,9 +4,16 @@ PATCH
 }
 
 
-PUT //Funktioniert nicht :-(
+PUT 
 {
   "name": "Niels",
   "sex": "MALE",
     "leadedGroups": []
 }
+
+PATCH 
+{
+  "name": "Niels",
+    "parents": []
+}
+
